@@ -1,0 +1,263 @@
+#
+sysname CA_LIM1_SI_01_NEW
+#
+tunnel-selector IPRAN permit node 10
+ apply tunnel-policy IPRAN
+#
+bfd
+#
+mpls lsr-id 10.122.12.190
+#
+mpls
+ label advertise explicit-null
+ mpls te
+ mpls rsvp-te
+ mpls rsvp-te hello
+ mpls rsvp-te hello support-peer-gr
+ mpls te cspf
+ mpls oam
+#
+explicit-path CA_LIM1_SI_01-TO-AG_CAL010_b
+ next hop 10.122.4.2 index 1
+ next hop 10.122.4.17 index 2
+ next hop 10.122.4.13 index 3
+#
+explicit-path CA_LIM1_SI_01-TO-AG_CAL071
+ next hop 10.122.4.22 index 1
+ next hop 10.122.2.62 index 2
+ next hop 10.122.2.66 index 3
+#
+explicit-path CA_LIM1_SI_01-TO-AG_CAL071_b
+ next hop 10.122.4.2 index 1
+ next hop 10.122.4.29 index 2
+ next hop 10.122.4.25 index 3
+#
+explicit-path CA_LIM1_SI_01-TO-AG_HUN0022
+ next hop 10.122.10.5 index 1
+ next hop 10.122.10.2 index 2
+ next hop 10.122.2.58 index 3
+#
+explicit-path CA_LIM1_SI_01-TO-AG_HUN0022_b
+ next hop 10.122.10.5 index 1
+ next hop 10.122.10.2 index 2
+ next hop 10.122.10.174 index 3
+#
+explicit-path CA_LIM1_SI_01-TO-AG_HUN0033
+ next hop 10.122.10.5 index 1
+ next hop 10.122.10.2 index 2
+ next hop 10.122.2.58 index 3
+#
+explicit-path CA_LIM1_SI_01-TO-AG_HUN0033_b
+ next hop 10.122.10.5 index 1
+ next hop 10.122.10.2 index 2
+ next hop 10.122.10.174 index 3
+#
+explicit-path CA_LIM1_SI_01-TO-AG_HUN8101
+ next hop 10.122.10.5 index 1
+ next hop 10.122.10.2 index 2
+ next hop 10.122.2.58 index 3
+#
+mpls ldp
+ graceful-restart
+ graceful-restart timer reconnect 180
+ graceful-restart timer recovery 200
+ #
+ ipv4-family
+#               
+mpls ldp remote-peer ag_ama0005
+ remote-ip 10.122.12.82
+#
+mpls ldp remote-peer ag_cal010
+ remote-ip 10.122.12.131
+#
+mpls ldp remote-peer ag_cal071
+ remote-ip 10.122.12.133
+#
+mpls ldp remote-peer ag_jun047
+ remote-ip 10.122.12.204
+#
+mpls ldp remote-peer ag_lam008
+ remote-ip 10.122.12.17
+#
+mpls ldp remote-peer ag_lam011
+ remote-ip 10.122.12.18
+#
+mpls ldp remote-peer ag_li1134
+ remote-ip 10.122.12.135
+#
+mpls ldp remote-peer ag_li1307
+ remote-ip 10.122.12.143
+#
+ip vpn-instance CUSTOMER_SEGURO_SIS
+ ipv4-family    
+  route-distinguisher 262.210:1059
+  apply-label per-route
+  vpn-target 262.210:1059 export-extcommunity
+  vpn-target 262.210:1059 import-extcommunity
+#
+interface Eth-Trunk6
+ ip address 10.122.10.6 255.255.255.252
+ trust upstream default
+ pim sm
+ ospf authentication-mode md5 1 cipher %^%#_1+2GDFKl+=/)rD&qOs(peZW*_.PzX"+*!EFvB_N%^%#
+ ospf ldp-sync
+ mpls
+ mpls te
+ mpls rsvp-te
+ mpls rsvp-te hello
+ mpls ldp
+ mpls ldp timer igp-sync-delay 25
+#
+interface Eth-Trunk5
+ ip address 10.122.10.5 255.255.255.252
+ trust upstream default
+ pim sm
+ ospf authentication-mode md5 1 cipher %^%#_1+2GDFKl+=/)rD&qOs(peZW*_.PzX"+*!EFvB_N%^%#
+ ospf ldp-sync
+ mpls
+ mpls te
+ mpls rsvp-te
+ mpls rsvp-te hello
+ mpls ldp
+ mpls ldp timer igp-sync-delay 25
+#
+interface Eth-Trunk8.1000
+ vlan-type dot1q 1000
+ ip binding vpn-instance CUSTOMER_SEGURO_SIS
+ ip address 172.27.178.7 255.255.255.254
+#
+interface Eth-Trunk8.1003
+ vlan-type dot1q 1003
+ description MINEDU_5K2_CA_LIMA_01
+ ip binding vpn-instance CUSTOMER_SEGURO_SIS
+ ip address 172.27.180.10 255.255.255.252
+#
+interface Tunnel0/0/140
+ ip address unnumbered interface LoopBack0
+ tunnel-protocol mpls te
+ destination 10.122.12.143
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC1307
+ mpls te tunnel-id 140
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC1307_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC1307_B secondary
+#
+interface Tunnel0/0/141
+ tunnel-protocol mpls te
+ destination 10.122.12.144
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02
+ mpls te tunnel-id 141
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_B secondary
+#
+interface Tunnel0/0/142
+ tunnel-protocol mpls te
+ destination 10.122.32.144
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02
+ mpls te tunnel-id 142
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_B secondary
+#
+interface Tunnel0/0/143
+ tunnel-protocol mpls te
+ destination 10.122.12.141
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02
+ mpls te tunnel-id 143
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_B secondary
+#
+interface Tunnel0/0/144
+ tunnel-protocol mpls te
+ destination 10.122.12.144
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02
+ mpls te tunnel-id 144
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_B secondary
+#
+interface Tunnel0/0/145
+ tunnel-protocol mpls te
+ destination 10.122.12.146
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02
+ mpls te tunnel-id 144
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_B secondary
+#
+interface Tunnel0/0/146
+ tunnel-protocol mpls te
+ destination 10.122.12.147
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02
+ mpls te tunnel-id 144
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_B secondary
+#
+interface Tunnel0/0/147
+ tunnel-protocol mpls te
+ destination 10.122.16.144
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02
+ mpls te tunnel-id 144
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_B secondary
+#
+interface Tunnel0/0/148
+ tunnel-protocol mpls te
+ destination 10.123.16.144
+ mpls te record-route label
+ mpls te signalled tunnel-name CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02
+ mpls te tunnel-id 144
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_P
+ mpls te path explicit-path CA_LIM1_SI_01_NEW-TO-AG_LIC0507_02_B secondary
+#
+bgp 4.66
+ router-id 10.122.12.190
+ graceful-restart
+ private-4-byte-as disable
+ peer 10.122.12.1 as-number 4.66
+ peer 10.122.12.1 description CA_NOR1_SI_01
+ peer 10.122.12.1 connect-interface LoopBack0
+ peer 10.122.12.1 password cipher %^%##Q3[:d~JLJ$ixb5"L3O&QSp]CQ$adF&l{j$WK;^,%^%#
+ peer 10.122.12.2 as-number 4.66
+ peer 10.122.12.2 description CA_NOR1_SI_02
+ peer 10.122.12.2 connect-interface LoopBack0
+ peer 10.122.12.2 password cipher %^%#zm=[+mn_0DE|OdL3[MK;i~0TQUZS&>>Iz+>T\|LP%^%#
+ peer 10.122.12.68 as-number 4.66
+ peer 10.122.12.68 description AG_LI1043_BB
+ peer 10.122.12.68 connect-interface LoopBack0
+ peer 10.122.12.68 password cipher %^%#qrA^*/+d295G5OHC,!!VK~}4Rzj;OWitp4)j*l10%^%#
+#
+ ipv4-family vpnv4
+  peer 10.122.12.1 enable
+  y
+  peer 10.122.12.2 enable
+  y
+  peer 10.122.12.68 enable
+  y
+#
+ ipv4-family vpn-instance CUSTOMER_CMAC_CUSCO
+  import-route direct
+  import-route static
+  peer 10.122.12.146 as-number 65400
+  peer 10.122.12.126 as-number 65410
+#
+ospf 1 router-id 10.122.12.190
+ silent-interface LoopBack0
+ silent-interface LoopBack1
+ lsa-arrival-interval 15
+ opaque-capability enable
+ bandwidth-reference 100000
+ area 0.0.0.0
+  network 10.122.12.190 0.0.0.0
+  network 10.122.14.190 0.0.0.0
+  mpls-te enable
+#
+
+
+
+
+

@@ -1,0 +1,202 @@
+sysname PE-1
+#
+ip vpn-instance CUSTOMER_1
+ipv4-family
+route-distinguisher 100:1
+vpn-target 111:1 both
+#
+interface GigabitEthernet3/0/0
+ description PE-1 <-> P-1
+ ip address 172.10.1.1 255.255.255.252
+ undo shutdown
+#
+interface GigabitEthernet3/0/2
+ description PE-1 <-> P-2
+ ip address 172.14.1.1 255.255.255.252
+ undo shutdown
+#
+interface GigabitEthernet3/0/5
+ ip binding vpn-instance CUSTOMER_1
+ description PE-1 <-> CE-1
+ ip address 192.168.1.1 255.255.255.252
+ undo shutdown
+#
+interface GigabitEthernet3/0/6
+ ip binding vpn-instance CUSTOMER_2
+ description PE-1 <-> CE-2
+ ip address 192.168.2.1 255.255.255.252
+ undo shutdown
+#
+interface lo0
+ip add 1.1.1.10 32
+#
+isis 1
+is-leve level-1 
+network-entity 49.0001.0000.0001.00
+inter g3/0/0
+isis ena 1
+isis circuit-level level-1
+inter g3/0/2
+isi en 1
+isis circuit-level level-1
+inter lo0
+isis e 1
+#
+mpls lsr-id 1.1.1.10
+mpls
+mpls te
+q
+segment-routing
+q
+isis 1
+cost-style wide
+traffic-eng level-1
+segment-routing mpls
+segment-routing global-block 16000 20000
+q
+interface lo0
+isis prefix-sid absolute 16100
+q
+explicit-path pe3-1
+next sid label 17100 type prefix
+next sid label 17300 type prefix
+next sid label 16300 type prefix
+q
+
+explicit-path pe3-2
+next sid label 17100 type prefix
+next sid label 17400 type prefix
+next sid label 16300 type prefix
+q
+explicit-path pe4-1
+next sid label 17100 type prefix
+next sid label 17300 type prefix
+next sid label 16400 type prefix
+q
+
+explicit-path pe4-2
+next sid label 17100 type prefix
+next sid label 17400 type prefix
+next sid label 16400 type prefix
+q
+
+explicit-path pe3-3
+next sid label 17200 type prefix
+next sid label 17300 type prefix
+next sid label 16300 type prefix
+q
+
+explicit-path pe3-4
+next sid label 17200 type prefix
+next sid label 17400 type prefix
+next sid label 16300 type prefix
+q
+explicit-path pe4-3
+next sid label 17200 type prefix
+next sid label 17300 type prefix
+next sid label 16400 type prefix
+q
+
+explicit-path pe4-4
+next sid label 17200 type prefix
+next sid label 17400 type prefix
+next sid label 16400 type prefix
+q
+
+interface tunnel1
+ip address unnumbered interface lo0
+tunnel-protocol mpls te
+destination 3.3.3.10
+mpls te tunnel-id 1
+mpls te signal-protocol segment-routing
+mpls te path explicit-path pe3-1
+commit
+comm
+
+interface tunnel2
+ip address unnumbered interface lo0
+tunnel-protocol mpls te
+destination 3.3.3.10
+mpls te tunnel-id 2
+mpls te signal-protocol segment-routing
+mpls te path explicit-path pe3-2
+commit
+comm
+
+interface tunnel3
+ip address unnumbered interface lo0
+tunnel-protocol mpls te
+destination 3.3.3.10
+mpls te tunnel-id 3
+mpls te signal-protocol segment-routing
+mpls te path explicit-path pe3-3
+commit
+comm
+
+interface tunnel4
+ip address unnumbered interface lo0
+tunnel-protocol mpls te
+destination 3.3.3.10
+mpls te tunnel-id 4
+mpls te signal-protocol segment-routing
+mpls te path explicit-path pe3-4
+commit
+comm
+
+interface tunnel5
+ip address unnumbered interface lo0
+tunnel-protocol mpls te
+destination 4.4.4.10
+mpls te tunnel-id 5
+mpls te signal-protocol segment-routing
+mpls te path explicit-path pe4-1
+commit
+comm
+
+interface tunnel6
+ip address unnumbered interface lo0
+tunnel-protocol mpls te
+destination 4.4.4.10
+mpls te tunnel-id 6
+mpls te signal-protocol segment-routing
+mpls te path explicit-path pe4-2
+commit
+comm
+
+interface tunnel7
+ip address unnumbered interface lo0
+tunnel-protocol mpls te
+destination 4.4.4.10
+mpls te tunnel-id 7
+mpls te signal-protocol segment-routing
+mpls te path explicit-path pe4-3
+commit
+comm
+
+interface tunnel8
+ip address unnumbered interface lo0
+tunnel-protocol mpls te
+destination 4.4.4.10
+mpls te tunnel-id 8
+mpls te signal-protocol segment-routing
+mpls te path explicit-path pe4-4
+commit
+comm
+#
+bgp 100
+peer 3.3.3.10 as-number 100
+peer 3.3.3.10 connect-interf lo0
+peer 4.4.4.10 as-number 100
+peer 4.4.4.10 connect-interf lo0
+peer 2.2.2.10 as-number 100
+peer 2.2.2.10 connect-interf lo0
+ipv4-family vpnv4
+peer 3.3.3.10 enable
+y
+peer 4.4.4.10 enable
+y
+peer 2.2.2.10 enable
+y
+ipv4-family vpn-instance CUSTOMER_1
+peer 192.168.1.2 as-number 65400
+peer 192.168.2.2 as-number 65410

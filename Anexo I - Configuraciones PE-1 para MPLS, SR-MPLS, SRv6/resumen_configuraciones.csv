@@ -1,0 +1,4 @@
+archivo;lineas_codigo;diff_vs_min_abs;diff_vs_min_pct;diff_vs_ref_abs;diff_vs_ref_pct
+pe1-srv6;71;0;0.0;-109;-60.56
+pe1-srmpls;180;109;153.52;0;0.0
+pe1-mpls;216;145;204.23;36;20.0
