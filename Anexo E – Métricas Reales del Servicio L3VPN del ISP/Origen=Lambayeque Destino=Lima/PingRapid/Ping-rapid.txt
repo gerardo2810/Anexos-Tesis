@@ -1,0 +1,15 @@
+##############################################################
+ 	181.176.227.92	181.176.227.93 lima
+	181.176.227.84  181.176.227.85 Lambayeque
+################# LAMBAYEUE ---> LIMA ########################
+--- 181.176.227.93 ping statistics ---
+9000 packets transmitted, 8997 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 19.586/25.300/540.998/26.811 ms
+
+--- 181.176.227.93 ping statistics ---
+4500 packets transmitted, 4500 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 19.669/25.001/408.962/25.349 ms
+
+--- 181.176.227.93 ping statistics ---
+2250 packets transmitted, 2250 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 19.646/25.802/443.284/28.644 ms

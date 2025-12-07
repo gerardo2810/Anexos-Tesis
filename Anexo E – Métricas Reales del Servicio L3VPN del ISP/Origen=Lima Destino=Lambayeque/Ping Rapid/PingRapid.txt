@@ -1,0 +1,11 @@
+======================LIMA--->LAMBAYEQUE=================
+--- 181.176.227.85 ping statistics ---
+9000 packets transmitted, 9000 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 19.625/22.052/293.526/11.116 ms
+
+--- 181.176.227.85 ping statistics ---
+4500 packets transmitted, 4500 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 19.675/22.056/302.608/11.031 ms
+--- 181.176.227.85 ping statistics ---
+2250 packets transmitted, 2250 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 19.712/21.894/239.188/9.348 ms
